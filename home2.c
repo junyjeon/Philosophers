@@ -1,11 +1,5 @@
 #include "sys/time.h"
 
-typedef struct s_timeval
-{
-    time_t        tv_sec;     // seconds
-    suseconds_t   tv_usec;    // microseconds
-} t_timeval;
-
 void _()
 {
 	t_timeval	*timeval;

@@ -6,14 +6,14 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/27 13:09:45 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/30 03:26:15 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "libft/libft.h"
+# include "../lib/libft/libft.h"
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdio.h>
@@ -31,13 +31,15 @@
 //int pthread_mutex_trylock(pthread_mutex_t *mutex);
 //뮤텍스 해제int pthread_mutex_unlock(pthread_mutex_t *mutex);
 //int pthread_mutex_destroy(pthread_mutex_t *mutex);
+//프로그램 실행중에  쓰레드 생성하기. tmp lst 갖고있기
 
-typedef struct s_philo
+typedef struct s_lst
 {
-	int	n_philo;
-	int	l_fork;
-	int	r_fork;
-}		t_philo;
+	pthread_t		tid;
+	int				fork;
+	struct s_lst	*left;
+	struct s_lst	*right;
+}		t_lst;
 
 typedef struct s_state
 {
@@ -56,4 +58,37 @@ typedef struct s_time
 	int	number_of_times_each_philosopher_must_eat;
 }		t_time;
 
+/* main */
+
+
+/* parse */
+void	parse(t_time *time, t_lst **philo, int ac, char **ar);
+
+/* options */
+//void	thinking(t_time *time, struct timeval *mytime);
+//void	eating(t_time *time, struct timeval *mytime);
+//void	sleeping(t_time *time, struct timeval *mytime);
+//void	ft_usleep(struct timeval *mytime, int time_to_ms);
+
+/* util */
+int		ft_perror(char *str);
+void	add_philo(t_time *time, t_lst **philo);
+
 #endif
+
+// ar[1] = number_of_philosophers
+// fork = number_of_philosophers;
+// fork는 lock되어야 한다. 뮤텍스
+// ar[2] = time_to_die
+// 되면 죽는 시간
+// ar[3] = time_to_eat
+// 먹는 시간
+// ar[4] = time_to_sleep
+// 잠을 자는 시간
+// ar[5] = number_of_times_each_philosopher_must_eat
+// 철학자들이 모두 eat를 채우면 종료
+
+// ./fdf 1 2 3 4 5
+
+// 철학자들의 수는 200까지
+// 철학자는 1번부터
