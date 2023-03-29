@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 03:26:15 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/30 04:19:53 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 typedef struct s_lst
 {
-	pthread_t		tid;
+	int				tid;
 	int				fork;
 	struct s_lst	*left;
 	struct s_lst	*right;
@@ -62,17 +62,20 @@ typedef struct s_time
 
 
 /* parse */
-void	parse(t_time *time, t_lst **philo, int ac, char **ar);
+int		parse(t_time *time, t_lst **lst, int ac, char **ar);
 
 /* options */
 //void	thinking(t_time *time, struct timeval *mytime);
 //void	eating(t_time *time, struct timeval *mytime);
 //void	sleeping(t_time *time, struct timeval *mytime);
 //void	ft_usleep(struct timeval *mytime, int time_to_ms);
+int		newthread();
 
 /* util */
 int		ft_perror(char *str);
-void	add_philo(t_time *time, t_lst **philo);
+int		add_philo(t_time *time, t_lst **lst);
+t_lst	*newlst(int tid);
+t_lst	*lstlast(t_lst *lst);
 
 #endif
 

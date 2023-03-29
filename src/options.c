@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 03:00:08 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/30 04:34:34 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,18 @@
 //{
 	
 //}
+
+void	*thread()
+{
+	printf("tid: , Thread Created");
+	return (NULL);
+}
+
+int	newthread()
+{
+	pthread_t	tid;
+
+	if (pthread_create(&tid, NULL, thread, NULL) < 0)
+		return (ft_perror("Error: thread create error"));
+	return ((int)tid);
+}
