@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 04:19:53 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/30 08:11:42 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@
 
 typedef struct s_lst
 {
-	int				tid;
-	int				fork;
-	struct s_lst	*left;
-	struct s_lst	*right;
-}		t_lst;
+	int				num;
+	pthread_t		tid;
+	pthread_mutex_t	fork;
+	struct s_lst	*right;//대화금지!
+}		t_lst;//바꾸기
 
 typedef struct s_state
 {
@@ -60,22 +60,22 @@ typedef struct s_time
 
 /* main */
 
-
 /* parse */
-int		parse(t_time *time, t_lst **lst, int ac, char **ar);
+t_lst		**parse(t_time *time, t_lst **lst, int ac, char **ar);
 
 /* options */
 //void	thinking(t_time *time, struct timeval *mytime);
 //void	eating(t_time *time, struct timeval *mytime);
 //void	sleeping(t_time *time, struct timeval *mytime);
-//void	ft_usleep(struct timeval *mytime, int time_to_ms);
-int		newthread();
+void		ft_usleep(struct timeval *mytime, int time_to_ms);
+pthread_t	newthread();
+
+/* mutex */
+int	mutex_destory(t_time *time, t_lst **lst);
 
 /* util */
-int		ft_perror(char *str);
-int		add_philo(t_time *time, t_lst **lst);
-t_lst	*newlst(int tid);
-t_lst	*lstlast(t_lst *lst);
+void		*ft_perror(char *str);
+int			add_philo(t_time *time, t_lst **lst);
 
 #endif
 
@@ -91,7 +91,5 @@ t_lst	*lstlast(t_lst *lst);
 // ar[5] = number_of_times_each_philosopher_must_eat
 // 철학자들이 모두 eat를 채우면 종료
 
-// ./fdf 1 2 3 4 5
-
-// 철학자들의 수는 200까지
-// 철학자는 1번부터
+// phil의 왼쪽 오른쪽 포크
+// 스레드 생성시 4번째 매개변수로 구조체 전달 후 tid 넣어두면 됨

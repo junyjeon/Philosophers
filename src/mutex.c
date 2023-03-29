@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 08:02:16 by junyojeo         ###   ########.fr       */
+/*   Created: 2023/03/30 07:59:46 by junyojeo          #+#    #+#             */
+/*   Updated: 2023/03/30 07:59:59 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	*ft_perror(char *str)
+int	mutex_destory(t_time *time, t_lst **lst)
 {
-	printf("%s\n", str);
-	return (NULL);
+	t_lst	*tmp;
+	int		i;
+
+	i = -1;
+	while (++i < time->number_of_philosophers)
+	{
+		tmp = (*lst)->right;
+		if (pthread_mutex_destroy(&(*lst)->fork) != 0)
+			return (ft_perror("Error: mutex destroy fail"));
+		if (pthread_join((*lst)->tid, NULL) != 0)
+			return (ft_perror("Error: thread destroy fail"));
+		*lst = tmp;
+	}
+	return (1);
 }
