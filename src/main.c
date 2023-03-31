@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/31 11:34:04 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:34:16 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	philosophers(int ac, char **ar)
 int	main(int ac, char **ar)
 {
 	if (ac != 5 && ac != 6)
-		return ((int)ft_perror("Error: argv"));
+		return (ft_perror("Error: argv"));
 	if (!philosophers(ac, ar))
 		return (1);
 	return (0);
