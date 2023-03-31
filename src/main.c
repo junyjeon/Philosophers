@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 08:06:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:34:04 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	philosophers(int ac, char **ar)
 	printf("time.time_to_die: %d\n", time.time_to_die);
 	printf("time.time_to_eat: %d\n", time.time_to_eat);
 	printf("time.time_to_sleep: %d\n", time.time_to_sleep);
-	printf("mytime: %d", mytime.tv_usec);
+	printf("mytime: %ld", mytime.tv_usec);
 	int i = -1;
 	while (++i < time.number_of_philosophers)
 	{
