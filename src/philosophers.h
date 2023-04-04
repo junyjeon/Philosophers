@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/03/30 08:11:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:37:50 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,34 @@
 //int pthread_mutex_trylock(pthread_mutex_t *mutex);
 //뮤텍스 해제int pthread_mutex_unlock(pthread_mutex_t *mutex);
 //int pthread_mutex_destroy(pthread_mutex_t *mutex);
-//프로그램 실행중에  쓰레드 생성하기. tmp lst 갖고있기
+//프로그램 실행중에  쓰레드 생성하기. tmp philo 갖고있기
+//시간
+//목표시간 = 현재시간 - 먹기 시작한 시간.
+# define START_TIME	1
 
-typedef struct s_lst
+typedef struct s_info
+{
+	int				number_of_philosophers;
+	pthread_mutex_t	*fork;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_times_each_philosopher_must_eat;
+	int				end_flag;
+	pthread_mutex_t	end_flag_mutex;
+	long long		start_time;
+}		t_info;
+
+typedef struct s_philo
 {
 	int				num;
 	pthread_t		tid;
-	pthread_mutex_t	fork;
-	struct s_lst	*right;//대화금지!
-}		t_lst;//바꾸기
+	pthread_mutex_t	lfork;
+	pthread_mutex_t	rfork;
+	int				count_eat;
+	long long		start_eat_time;
+	t_info			*info;
+}		t_philo;
 
 typedef struct s_state
 {
@@ -48,34 +67,23 @@ typedef struct s_state
 	int	sleep;
 }		t_state;
 
-typedef struct s_time
-{
-	int	number_of_philosophers;
-	int	fork;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	number_of_times_each_philosopher_must_eat;
-}		t_time;
-
 /* main */
 
-/* parse */
-t_lst		**parse(t_time *time, t_lst **lst, int ac, char **ar);
+/* init */
+int			init_info(t_info *info, int ac, char **ar);
+t_philo		*init_philo(t_info *info);
 
 /* options */
-//void	thinking(t_time *time, struct timeval *mytime);
-//void	eating(t_time *time, struct timeval *mytime);
-//void	sleeping(t_time *time, struct timeval *mytime);
-void		ft_usleep(struct timeval *mytime, int time_to_ms);
-pthread_t	newthread();
+void		philos_cycle(t_philo *philo);
 
 /* mutex */
-int	mutex_destory(t_time *time, t_lst **lst);
+//int			mutex_destory(t_info *info, t_philo **philo);
 
 /* util */
-void		*ft_perror(char *str);
-int			add_philo(t_time *time, t_lst **lst);
+int			ft_perror(char *str);
+int			print_struct(t_info *info, t_philo *philo);
+void		ft_usleep(long long start_time, int time_to_spend);
+long long	get_time(t_philo *philo, int flag);
 
 #endif
 
