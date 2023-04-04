@@ -6,57 +6,79 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/04 20:26:21 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/04 23:35:54 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	sleeping(t_philo *philo)
+long long	get_time(t_philo *philo, int time_flag)
 {
-	printf("%lld %d is sleeping", get_time(philo, -1), philo->num);
-	ft_usleep(get_time(philo, -1), philo->info->time_to_sleep * 1000);
+	struct timeval	mytime;
+	long long		curr_time;
+	long long		ret;
+
+	if (gettimeofday(&mytime, NULL) == -1)
+		return (ft_perror("Error: It points to areas where tv or tz cannot access."));
+	curr_time = mytime.tv_sec * 1000;
+	curr_time += mytime.tv_usec / 1000;
+	if (time_flag)
+		return (curr_time); 
+	ret = curr_time - philo->eat_time;
+	return (ret);
 }
 
-void	eating(t_philo *philo, long long start_time)
+int	ft_usleep(t_philo *philo, long long current_time, int time_to_spend)
+{
+	long long	target;
+
+	target = current_time + time_to_spend;
+	while (current_time < target)
+	{
+		if (philo->info->time_to_die <= current_time - philo->info->start_time)
+		{
+			printf("%lld %d is died\n", current_time - philo->info->start_time, philo->num);
+			return (0);
+		}	//whatchman님 프로세스 종료시켜주세요.
+		usleep(1000);
+		current_time = get_time(philo, CURRENT_TIME);
+	}
+	return (1);
+}
+
+static int	eating(t_philo *philo, long long start_time, long long current_time)
 {
 	pthread_mutex_lock(&philo->lfork);
-	printf("%lld %d has taken a fork", get_time(philo, -1), philo->num);
+	printf("%lld %d has taken a left fork\n", current_time - start_time, philo->num);
 	pthread_mutex_lock(&philo->rfork);
-	printf("%lld %d has taken a fork", get_time(philo, -1), philo->num);
-	printf("%lld %d is eating", get_time(philo, -1), philo->num);
-	philo->count_eat++;
-	philo->start_eat_time = start_time;
-	ft_usleep(get_time(philo, -1), philo->info->time_to_eat);
+	printf("%lld %d has taken a right fork\n", current_time - start_time, philo->num);
+	printf("%lld %d is eating\n", current_time - start_time, philo->num);
+	philo->cnt_eat++;
+	if (ft_usleep(philo, current_time, philo->info->time_to_eat))
+		return (0);
 	pthread_mutex_unlock(&philo->lfork);
 	pthread_mutex_unlock(&philo->rfork);
-}
-
-void	thinking(t_philo *philo)
-{
-	printf("%lld %d is thinking\n", get_time(philo, -1), philo->num);
+	return (1);
 }
 
 void	philos_cycle(t_philo *philo)
 {
-	int	i;
+	int			i;
+
+	philo->info->start_time = get_time(philo, CURRENT_TIME);
 	i = -1;
 	while (1)
 	{
-		philo->info->start_time = get_time(philo, START_TIME);
-		printf("current_time: %lld\n", get_time(philo, 1));
-		return ;
-		if (philo->count_eat == philo->info->number_of_times_each_philosopher_must_eat)
+		if (philo->cnt_eat == philo->info->must_eat)
 			return ;
 		if (philo->info->end_flag == 1)
-		{
-			printf("%lld %d is eating", get_time(philo, -1), philo->num);
 			return ;
-		}
-		eating(philo, philo->info->start_time);
-		if (philo->count_eat == philo->info->number_of_times_each_philosopher_must_eat)
+		if (eating(philo, philo->info->start_time, get_time(philo, CURRENT_TIME)))
 			return ;
-		sleeping(philo);
-		thinking(philo);//fork cnt == 2 ? eating : waitting...
+		if (philo->cnt_eat == philo->info->must_eat)
+			return ;
+		printf("%lld %d is sleeping\n", get_time(philo, CURRENT_TIME) - philo->info->start_time, philo->num);
+		ft_usleep(philo, get_time(philo, CURRENT_TIME), philo->info->time_to_sleep);
+		printf("%lld %d is thinking\n", get_time(philo, CURRENT_TIME) - philo->info->start_time, philo->num);
 	}
 }

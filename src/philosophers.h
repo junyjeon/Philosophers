@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/04 20:37:50 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/04 23:35:53 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 //프로그램 실행중에  쓰레드 생성하기. tmp philo 갖고있기
 //시간
 //목표시간 = 현재시간 - 먹기 시작한 시간.
-# define START_TIME	1
+# define CURRENT_TIME	1
 
 typedef struct s_info
 {
@@ -43,7 +43,7 @@ typedef struct s_info
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				number_of_times_each_philosopher_must_eat;
+	int				must_eat;
 	int				end_flag;
 	pthread_mutex_t	end_flag_mutex;
 	long long		start_time;
@@ -55,8 +55,8 @@ typedef struct s_philo
 	pthread_t		tid;
 	pthread_mutex_t	lfork;
 	pthread_mutex_t	rfork;
-	int				count_eat;
-	long long		start_eat_time;
+	int				cnt_eat;
+	long long		eat_time;
 	t_info			*info;
 }		t_philo;
 
@@ -82,7 +82,7 @@ void		philos_cycle(t_philo *philo);
 /* util */
 int			ft_perror(char *str);
 int			print_struct(t_info *info, t_philo *philo);
-void		ft_usleep(long long start_time, int time_to_spend);
+int			ft_usleep(t_philo *philo, long long current_time, int time_to_spend);
 long long	get_time(t_philo *philo, int flag);
 
 #endif
@@ -96,7 +96,7 @@ long long	get_time(t_philo *philo, int flag);
 // 먹는 시간
 // ar[4] = time_to_sleep
 // 잠을 자는 시간
-// ar[5] = number_of_times_each_philosopher_must_eat
+// ar[5] = must_eat
 // 철학자들이 모두 eat를 채우면 종료
 
 // phil의 왼쪽 오른쪽 포크
