@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/04 23:35:54 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:30:33 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,28 @@ static int	eating(t_philo *philo, long long start_time, long long current_time)
 	pthread_mutex_unlock(&philo->lfork);
 	pthread_mutex_unlock(&philo->rfork);
 	return (1);
+}
+
+static void	check(int error_num)
+{
+	if (error_num == 0)
+		return ;
+	else if (error_num == EINVAL)
+	{
+		ft_perror("Error: It points to areas where tv or tz cannot access.");
+		return ;
+	}
+	else if (error_num == EDEADLK)
+	{
+		ft_perror("Error: It points to areas where tv or tz cannot access.");
+		return ;
+	}
+	else if (error_num == EBUSY)
+	{
+		ft_perror("Error: It points to areas where tv or tz cannot access.");
+		return ;
+	}
+	return ;
 }
 
 void	philos_cycle(t_philo *philo)
