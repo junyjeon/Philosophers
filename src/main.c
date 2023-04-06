@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/05 15:55:23 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/06 10:54:11 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,6 @@ void	philos_born(t_philo *philo)
 		pthread_join(philo[i].tid, NULL);
 }
 
-void	watch(t_philo *philo)
-{
-	//while (1)
-	//{
-	//	if (philo->info->end_flag == 1)
-	//		philo->info-> printf("");
-	//}
-}
-
-void	watchman(t_philo *philo)
-{
-	pthread_t	tid;
-
-	pthread_create(&tid, NULL, (void *)watch, (t_philo *)&philo);
-}
-
-// void	all_free(philo)
-// {
-
-// }
-
 int	philosophers(int ac, char **ar)
 {
 	t_info	info;
@@ -55,7 +34,7 @@ int	philosophers(int ac, char **ar)
 	philo = init_philo(&info);
 	if (!philo)
 		return (0);
-	watchman(philo);
+	watchman(&info);
 	philos_born(philo);
 	// all_free(philo);
 	print_struct(&info, philo);
