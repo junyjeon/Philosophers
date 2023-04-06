@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 18:05:13 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:25:11 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_info
 	int				end_flag;
 	pthread_mutex_t	*end_flag_mutex;
 	long long		start_time;
+	pthread_mutex_t	*start_time_mutex;
 }		t_info;
 
 typedef struct s_philo
@@ -60,7 +61,7 @@ t_philo		*init_philo(t_info *info);
 void		monitoring(t_philo *philo);
 
 /* util */
-long long	get_time(t_philo *philo);
+long long	timer();
 int			ft_perror(char *str);
 int			ft_usleep(t_philo *philo, long long current_time, int time_to_spend);
 int			all_free(t_philo *philo);

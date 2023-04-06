@@ -1,8 +1,8 @@
 NAME		=	philosophers
 
 CC			=	cc -g3
-#CFLAGS		=	-Wall -Wextra -Werror
-# CFLAGS		+=	-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		+=	-fsanitize=thread
 
 INC_DIR		=	./inc
 

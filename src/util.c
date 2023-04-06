@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 17:33:13 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:24:07 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ int	ft_perror(char *str)
 	return (0);
 }
 
-long long	get_time(t_philo *philo)
+long long	timer(void)
 {
 	struct timeval	mytime;
 	long long		curr_time;
-	long long		ret;
 
 	if (gettimeofday(&mytime, NULL) == -1)
 		return (ft_perror("Error: It points to areas where tv or tz cannot access."));
@@ -34,21 +33,23 @@ long long	get_time(t_philo *philo)
 int	ft_usleep(t_philo *philo, long long current_time, int time_to_spend)
 {
 	long long	target;
+	long long	curr_time;
 
 	target = current_time + time_to_spend;
 	while (current_time < target)
 	{
+		curr_time = current_time - philo->info->start_time;
 		// 수명 <= 현재시각 - 마지막으로 밥먹은시각
 		if (philo->info->time_to_die <= current_time - philo->eat_time)
 		{
-			printf("%lld %d is died\n", current_time - philo->info->start_time, philo->num);
+			printf("%lld %d is died\n", curr_time, philo->num);
 			pthread_mutex_lock(philo->info->end_flag_mutex);
 			philo->info->end_flag = 1;
 			pthread_mutex_unlock(philo->info->end_flag_mutex);
 			return (0);
 		}
-		usleep(50);
-		current_time = get_time(philo);
+		usleep(100);
+		current_time = timer();
 	}
 	return (1);
 }
