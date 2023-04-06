@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 18:05:13 by junyojeo         ###   ########.fr       */
+/*   Created: 2023/04/06 15:22:20 by junyojeo          #+#    #+#             */
+/*   Updated: 2023/04/06 17:32:27 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	philosophers(int ac, char **ar)
+void	monitoring(t_philo *philo)
 {
-	t_info	info;
-	t_philo	*philo;
-
-	if (!init_info(&info, ac, ar))
-		return (0);
-	philo = init_philo(&info);
-	if (!philo)
-		return (0);
-	//monitoring(philo);
-	if (!philos_born(philo))
-		return (0);
-	//print_struct(&info, philo);
-	return (1);
-}
-
-int	main(int ac, char **ar)
-{
-	if (ac != 5 && ac != 6)
-		return (ft_perror("Error: argv"));
-	if (!philosophers(ac, ar))
-		return (1);
-	return (0);
+	while (1)
+	{
+		if (philo->info->end_flag == 1)
+			break ;
+	}
+	all_free(philo);
 }

@@ -15,7 +15,7 @@ LDFLAGS		=	-L$(LIBFT_DIR) -lft -lpthread
 SRC_DIR		=	src
 BUILD_DIR	=	bulid
 
-SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c cycle.c util.c)
+SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c monitoring.c philos_cycle.c util.c)
 OBJ		=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)
