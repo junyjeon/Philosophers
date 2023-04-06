@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 20:30:56 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:31:17 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,4 @@ int	philos_born(t_philo *philo)
 		pthread_join(philo[i].tid, NULL);
 	return (1);
 }
+//공유 자원 사용하는 곳 뮤텍스 걸기, 1ms 해결하기
