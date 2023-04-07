@@ -33,7 +33,6 @@ static int	ft_usleep(t_philo *philo, int now, int time_to_spend)
 			philo->info->end_flag = 1;
 			printf("%d %d is died\n", now, philo->num);
 			pthread_mutex_unlock(philo->info->end_flag_mutex);
-			pthread_mutex_unlock(philo->info->print_mutex);
 			return (0);
 		}
 		usleep(100);
