@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:13:53 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 13:07:33 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:20:41 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ int	init_info(t_info *info, int ac, char **ar)
 	info->end_flag_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(info->end_flag_mutex, NULL) == -1)
 		return (ft_perror("Error: EINVAL_02"));
-	info->start_time_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(info->start_time_mutex, NULL) == -1)
-		return (ft_perror("Error: EINVAL_03"));
 	return (1);
 }
 

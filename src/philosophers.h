@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 13:20:19 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:20:35 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_info
 	int				end_flag;
 	pthread_mutex_t	*end_flag_mutex;
 	long long		start_time;
-	pthread_mutex_t	*start_time_mutex;
 }		t_info;
 
 typedef struct s_philo
