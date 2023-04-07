@@ -38,7 +38,7 @@ clean:
 	@echo "${YELLOW}> All objects files of the philosophers have been deleted.❌${END}"
 
 fclean: clean
-	@$(RM) -r $(NAME) $(LIBFT) 
+	@$(RM) -r $(NAME) $(LIBFT)
 	@echo "${YELLOW}> Cleaning of the philosophers has been done.❌${END}"
 
 re: fclean

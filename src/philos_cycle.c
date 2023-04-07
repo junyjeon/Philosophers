@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 20:31:17 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 09:50:24 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ static int	eating(t_philo *philo)
 
 static void	philos_cycle(t_philo *philo)
 {
-	int	i;
 
 	philo->eat_time = philo->info->start_time;
 	if (philo->num % 2 == 1)
 		ft_usleep(philo, timer(), 1);
-	i = -1;
 	while (1)
 	{
 		if (philo->info->must_eat == 0)
