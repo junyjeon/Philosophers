@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 20:24:07 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:13:52 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,38 @@ int	ft_perror(char *str)
 	return (0);
 }
 
-long long	timer(void)
+long long	timer(t_philo *philo, int flag)
 {
 	struct timeval	mytime;
-	long long		curr_time;
+	long long		now;
 
 	if (gettimeofday(&mytime, NULL) == -1)
 		return (ft_perror("Error: It points to areas where tv or tz cannot access."));
-	curr_time = mytime.tv_sec * 1000;
-	curr_time += mytime.tv_usec / 1000;
-	return (curr_time);
+	now = mytime.tv_sec * 1000;
+	now += mytime.tv_usec / 1000;
+	if (flag)
+		return (now);
+	return (now - philo->info->start_time);
 }
 
-int	ft_usleep(t_philo *philo, long long current_time, int time_to_spend)
+int	ft_usleep(t_philo *philo, long long now, int time_to_spend)
 {
 	long long	target;
-	long long	curr_time;
 
-	target = current_time + time_to_spend;
-	while (current_time < target)
+	target = now + time_to_spend;
+	while (now < target)
 	{
-		curr_time = current_time - philo->info->start_time;
-		// 수명 <= 현재시각 - 마지막으로 밥먹은시각
-		if (philo->info->time_to_die <= current_time - philo->eat_time)
+		// 죽는시간 <= 현재시간 - 마지막으로 먹은시간
+		if (philo->info->time_to_die <= now + philo->eat_time)
 		{
-			printf("%lld %d is died\n", curr_time, philo->num);
+			printf("%lld %d is died\n", now, philo->num);
 			pthread_mutex_lock(philo->info->end_flag_mutex);
 			philo->info->end_flag = 1;
 			pthread_mutex_unlock(philo->info->end_flag_mutex);
 			return (0);
 		}
 		usleep(100);
-		current_time = timer();
+		now = timer(philo, 0);
 	}
 	return (1);
 }
@@ -71,33 +71,4 @@ int	all_free(t_philo *philo)//join status != 0
 			return (ft_perror("Error: mutex destroy fail"));
 	}
 	return (1);	
-}
-
-int	print_struct(t_info *info, t_philo *philo)
-{
-	struct timeval	mytime;
-
-	printf("info->number_of_philosophers: %d\n", info->number_of_philosophers);
-	//printf("fork: %d\n", fork);
-	printf("info->time_to_die: %d\n", info->time_to_die);
-	printf("info->time_to_eat: %d\n", info->time_to_eat);
-	printf("info->time_to_sleep: %d\n", info->time_to_sleep);
-	printf("info->must_eat: %d\n", info->must_eat);
-	printf("info->end_flag: %d\n", info->end_flag);
-	//printf("info->end_flag_mutex: %d\n", info->end_flag_mutex);
-	printf("info->start_time: %lld\n", info->start_time);
-	
-	if (gettimeofday(&mytime, NULL) == -1)
-		return (ft_perror("Error: It points to areas where tv or tz cannot access."));
-	//printf("get_time: %lld\n", get_time(philo)));
-	int i = -1;
-	while (++i < info->number_of_philosophers)
-	{
-		printf("philo->num: %d\n", philo[i].num);
-		// printf("philo[i].tid: %d\n", philo[i].tid);
-		printf("philo[i].cnt_eat: %d\n", philo[i].cnt_eat);
-		printf("philo[i].eat_start_time: %lld\n", philo[i].eat_time);
-		printf("philo[i].info: %p\n", philo[i].info);
-	}
-	return (1);
 }

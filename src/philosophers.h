@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/06 20:25:11 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:20:19 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_philo
 	pthread_t		tid;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
-	int				cnt_eat;
+	int				eat_cnt;
 	long long		eat_time;
 	t_info			*info;
 }		t_philo;
@@ -50,18 +50,15 @@ typedef struct s_state
 	int	sleep;
 }		t_state;
 
-/* main */
-int			philos_born(t_philo *philo);
-
 /* init */
 int			init_info(t_info *info, int ac, char **ar);
 t_philo		*init_philo(t_info *info);
 
-/* monitoring */
-void		monitoring(t_philo *philo);
+/* born */
+int			philos_born(t_philo *philo);
 
 /* util */
-long long	timer();
+long long	timer(t_philo *philo, int flag);
 int			ft_perror(char *str);
 int			ft_usleep(t_philo *philo, long long current_time, int time_to_spend);
 int			all_free(t_philo *philo);
