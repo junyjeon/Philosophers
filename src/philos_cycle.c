@@ -6,13 +6,13 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 15:07:00 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:34:43 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void print_mutex(char *str, int now, t_philo *philo)
+static void	print_mutex(char *str, int now, t_philo *philo)
 {
 	pthread_mutex_lock(philo->info->print_mutex);
 	printf("%d %d %s", now, philo->num, str);
@@ -66,7 +66,7 @@ static int	eating(t_philo *philo)
 static void	philos_cycle(t_philo *philo)
 {
 	if (philo->info->must_eat == 0)
-			return ;
+		return ;
 	if (philo->num % 2 == 1)
 		ft_usleep(philo, timer(philo, 0), philo->info->time_to_eat / 2);
 	while (1)
@@ -96,7 +96,8 @@ int	philos_born(t_philo *philo)
 	i = -1;
 	while (++i < philo->info->number_of_philosophers)
 	{
-		if (pthread_create(&philo[i].tid, NULL, (void *)philos_cycle, (t_philo *)&philo[i]) != 0)
+		if (pthread_create(&philo[i].tid, NULL, (void *)philos_cycle, \
+		(t_philo *)&philo[i]) != 0)
 		{
 			ft_perror("Error: Thread creation failed.");
 			return (0);

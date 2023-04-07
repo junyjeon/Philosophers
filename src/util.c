@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 15:02:32 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:34:59 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,10 @@ int	timer(t_philo *philo, int flag)
 	long long		now;
 
 	if (gettimeofday(&mytime, NULL) == -1)
-		return (ft_perror("Error: It points to areas where tv or tz cannot access."));
+		return (ft_perror("Error: tv or tz cannot access."));
 	now = mytime.tv_sec * 1000;
 	now += mytime.tv_usec / 1000;
 	if (flag)
 		return (now);
 	return (now - philo->info->start_time);
-}
-
-int	all_free(t_philo *philo)//join status != 0
-{
-	int	i;
-	//int	status;
-
-	i = -1;
-	while (++i < philo->info->number_of_philosophers)
-	{
-		//pthread_join(philo->tid, (void **)&status);
-		//if (status != 0)
-		//	return (ft_perror("Error: Failed to release thread resources."));
-		//if (pthread_mutex_destroy(philo[i].lfork) != 0)
-		//	return (ft_perror("Error: mutex destroy fail"));
-		//if (pthread_mutex_destroy(philo[i].rfork) != DIE)
-		//	return (ft_perror("Error: mutex destroy fail"));
-	}
-	return (1);	
 }
