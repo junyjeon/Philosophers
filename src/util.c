@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 13:39:43 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:02:32 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_perror(char *str)
 	return (0);
 }
 
-long long	timer(t_philo *philo, int flag)
+int	timer(t_philo *philo, int flag)
 {
 	struct timeval	mytime;
 	long long		now;
@@ -32,43 +32,21 @@ long long	timer(t_philo *philo, int flag)
 	return (now - philo->info->start_time);
 }
 
-int	ft_usleep(t_philo *philo, int now, int time_to_spend)
-{
-	int	target;
-
-	target = now + time_to_spend;
-	while (now < target)
-	{
-		// 죽는시간 <= 현재시간 - 마지막으로 먹은시간
-		if (philo->info->time_to_die <= now + philo->eat_time)
-		{
-			printf("%d %d is died\n", now, philo->num);
-			pthread_mutex_lock(philo->info->end_flag_mutex);
-			philo->info->end_flag = 1;
-			pthread_mutex_unlock(philo->info->end_flag_mutex);
-			return (0);
-		}
-		usleep(100);
-		now = timer(philo, 0);
-	}
-	return (1);
-}
-
 int	all_free(t_philo *philo)//join status != 0
 {
 	int	i;
-	int	status;
+	//int	status;
 
 	i = -1;
 	while (++i < philo->info->number_of_philosophers)
 	{
-		pthread_join(philo->tid, (void **)&status);
-		if (status != 0)
-			return (ft_perror("Error: Failed to release thread resources."));
-		if (pthread_mutex_destroy(philo[i].lfork) != 0)
-			return (ft_perror("Error: mutex destroy fail"));
-		if (pthread_mutex_destroy(philo[i].rfork) != 0)
-			return (ft_perror("Error: mutex destroy fail"));
+		//pthread_join(philo->tid, (void **)&status);
+		//if (status != 0)
+		//	return (ft_perror("Error: Failed to release thread resources."));
+		//if (pthread_mutex_destroy(philo[i].lfork) != 0)
+		//	return (ft_perror("Error: mutex destroy fail"));
+		//if (pthread_mutex_destroy(philo[i].rfork) != DIE)
+		//	return (ft_perror("Error: mutex destroy fail"));
 	}
 	return (1);	
 }
