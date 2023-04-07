@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 13:13:52 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:39:43 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ long long	timer(t_philo *philo, int flag)
 	return (now - philo->info->start_time);
 }
 
-int	ft_usleep(t_philo *philo, long long now, int time_to_spend)
+int	ft_usleep(t_philo *philo, int now, int time_to_spend)
 {
-	long long	target;
+	int	target;
 
 	target = now + time_to_spend;
 	while (now < target)
@@ -42,7 +42,7 @@ int	ft_usleep(t_philo *philo, long long now, int time_to_spend)
 		// 죽는시간 <= 현재시간 - 마지막으로 먹은시간
 		if (philo->info->time_to_die <= now + philo->eat_time)
 		{
-			printf("%lld %d is died\n", now, philo->num);
+			printf("%d %d is died\n", now, philo->num);
 			pthread_mutex_lock(philo->info->end_flag_mutex);
 			philo->info->end_flag = 1;
 			pthread_mutex_unlock(philo->info->end_flag_mutex);

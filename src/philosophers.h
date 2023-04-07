@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 13:20:35 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:39:48 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			philos_born(t_philo *philo);
 /* util */
 long long	timer(t_philo *philo, int flag);
 int			ft_perror(char *str);
-int			ft_usleep(t_philo *philo, long long current_time, int time_to_spend);
+int		ft_usleep(t_philo *philo, int now, int time_to_spend);
 int			all_free(t_philo *philo);
 
 #endif
