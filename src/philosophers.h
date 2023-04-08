@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 17:06:24 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/08 15:13:42 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ typedef struct s_philo
 {
 	int				num;
 	pthread_t		tid;
-	pthread_mutex_t	*lfork;
-	pthread_mutex_t	*rfork;
 	int				eat_cnt;
 	long long		eat_time;
 	t_info			*info;
@@ -56,7 +54,7 @@ t_philo	*init_philo(t_info *info);
 
 /* born */
 int		philos_born(t_philo *philo);
-void	monitoring(t_philo *philo);
+int		monitoring(t_philo *philo);
 
 /* util */
 int		timer(t_philo *philo, int flag);

@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:13:53 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 15:37:41 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:45:05 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ t_philo	*init_philo(t_info *info)
 	while (++i < info->number_of_philosophers)
 	{
 		philo[i].num = i + 1;
-		philo[i].lfork = &info->fork[i];
-		philo[i].rfork = &info->fork[(i + 1) % info->number_of_philosophers];
 		philo[i].eat_cnt = 0;
 		philo[i].eat_time = 0;
 		philo[i].info = info;
