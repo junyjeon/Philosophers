@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:27:00 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/07 17:03:16 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:46:24 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_perror(char *str)
 	return (0);
 }
 
-int	timer(t_philo *philo, int flag)
+long long	timer(t_philo *philo, int flag)
 {
 	struct timeval	mytime;
 	long long		now;

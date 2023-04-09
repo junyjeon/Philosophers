@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/08 15:13:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:52:38 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ typedef struct s_state
 }		t_state;
 
 /* init */
-int		init_info(t_info *info, int ac, char **ar);
-t_philo	*init_philo(t_info *info);
+int			init_info(t_info *info, int ac, char **ar);
+t_philo		*init_philo(t_info *info);
 
 /* born */
-int		philos_born(t_philo *philo);
-int		monitoring(t_philo *philo);
+int			philos_born(t_philo *philo);
+int			monitoring(t_philo *philo);
 
 /* util */
-int		timer(t_philo *philo, int flag);
-int		ft_perror(char *str);
+long long	timer(t_philo *philo, int flag);
+int			ft_perror(char *str);
 
 #endif

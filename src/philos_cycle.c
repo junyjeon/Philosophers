@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philos_cycle.c                                     :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/08 16:43:03 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/08 21:15:18 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	eating(t_philo *philo)
 {
 	int	now;
 
-	printf("%d\n", philo->num);
 	pthread_mutex_lock(&philo->info->fork[philo->num - 1]);
 	print_mutex("has taken a fork\n", timer(philo, 0), philo);
 	pthread_mutex_lock(&philo->info->fork[(philo->num) % philo->info->number_of_philosophers]);
@@ -52,10 +51,10 @@ static int	eating(t_philo *philo)
 	philo->eat_time = now;
 	philo->eat_cnt++;
 	print_mutex("is eating\n", now, philo);
-	pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
-	pthread_mutex_unlock(&philo->info->fork[(philo->num) % philo->info->number_of_philosophers]);
 	if (!ft_usleep(philo, now, philo->info->time_to_eat))
 		return (0);
+	pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
+	pthread_mutex_unlock(&philo->info->fork[(philo->num) % philo->info->number_of_philosophers]);
 	return (1);
 }
 
@@ -104,7 +103,13 @@ int	philos_born(t_philo *philo)
 			ft_perror("Error: Thread creation failed.");
 			return (0);
 		}
+		printf("HIHI\n");
 	}
-	monitoring(philo);
+	printf("hihi\n");
+	if (!monitoring(philo))
+		return (0);
+	i = -1;
+	while (++i < philo->info->number_of_philosophers)
+		pthread_join(philo[i].tid, NULL);
 	return (1);
 }

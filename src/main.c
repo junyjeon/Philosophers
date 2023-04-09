@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/08 16:27:28 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 12:26:32 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	philosophers(int ac, char **ar)
 	if (!philo)
 		return (0);
 	philos_born(philo);
-	free(philo);
 	return (1);
 }
 
