@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:13:53 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 13:35:06 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 14:31:00 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_philo	*init_philo(t_info *info)
 		philo[i].eat_cnt = 0;
 		philo[i].eat_time = 0;
 		philo[i].info = info;
-		philo[i].tid = 0;
 	}
 	return (philo);
 }

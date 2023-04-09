@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 13:34:51 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 14:07:19 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			monitoring(t_philo *philo);
 
 /* util */
 long long	timer(t_philo *philo, int flag);
+void 		free_all(t_philo *philo);
 int			ft_perror(char *str);
 
 #endif

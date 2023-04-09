@@ -6,12 +6,23 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 15:22:20 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 13:40:08 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 14:28:53 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void	free_all(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philo->info->number_of_philosophers)
+		pthread_mutex_destroy(philo->info->fork);
+	pthread_mutex_destroy(philo->info->end_flag_mutex);
+	pthread_mutex_destroy(philo->info->print_mutex);
+	pthread_mutex_destroy(philo->info->eat_cnt_mutex);
+}
 int	monitoring(t_philo *philo)
 {
 	int	i;
@@ -28,6 +39,8 @@ int	monitoring(t_philo *philo)
 				pthread_mutex_unlock(philo->info->eat_cnt_mutex);
 				pthread_mutex_lock(philo->info->print_mutex);
 				printf("%lld %d is died\n", timer(philo, 0), philo->num);
+				printf("h1h1h1h1eat_cnt: %d\n", philo->eat_cnt);
+				break ;
 			}
 			pthread_mutex_unlock(philo->info->eat_cnt_mutex);
 			break ;
@@ -37,11 +50,5 @@ int	monitoring(t_philo *philo)
 	i = -1;
 	while (++i < philo->info->number_of_philosophers)
 		pthread_join(philo[i].tid, NULL);
-	i = -1;
-	while (++i < philo->info->number_of_philosophers)
-		pthread_mutex_destroy(philo->info->fork);
-	pthread_mutex_destroy(philo->info->end_flag_mutex);
-	pthread_mutex_destroy(philo->info->print_mutex);
-	pthread_mutex_destroy(philo->info->eat_cnt_mutex);
 	return (0);
 }

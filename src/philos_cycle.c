@@ -19,6 +19,7 @@ static int	print_mutex(char *str, int now, t_philo *philo)
 	pthread_mutex_lock(philo->info->print_mutex);
 	printf("%d %d %s", now, philo->num, str);
 	pthread_mutex_unlock(philo->info->print_mutex);
+	usleep(3);
 	return (1);
 }
 
@@ -47,8 +48,6 @@ static int	eating(t_philo *philo)
 	int	now;
 
 	now = timer(philo, 0);
-	//printf("eat_time: %lld\n", now - philo->eat_time);
-	//printf("num: %d\n", philo->num - 1);
 	pthread_mutex_lock(&philo->info->fork[philo->num - 1]);
 	if (!print_mutex("has taken a fork\n", timer(philo, 0), philo))
 		return (0);
@@ -68,6 +67,33 @@ static int	eating(t_philo *philo)
 	return (1);
 }
 
+static int	check_mutex_end_flag(t_philo *philo)
+{
+	pthread_mutex_lock(philo->info->end_flag_mutex);
+	if (philo->info->end_flag == 1)
+	{
+		pthread_mutex_unlock(philo->info->end_flag_mutex);
+		return (0);
+	}
+	pthread_mutex_unlock(philo->info->end_flag_mutex);
+	return (1);
+}
+
+static int	check_mutex_eat_cnt(t_philo *philo)
+{
+	pthread_mutex_lock(philo->info->eat_cnt_mutex);
+	if (philo->eat_cnt == philo->info->must_eat && philo->info->end_flag == -1)
+	{
+		pthread_mutex_unlock(philo->info->eat_cnt_mutex);
+		pthread_mutex_lock(philo->info->end_flag_mutex);
+		philo->info->end_flag = 1;
+		pthread_mutex_unlock(philo->info->end_flag_mutex);
+		return (0);
+	}
+	pthread_mutex_unlock(philo->info->eat_cnt_mutex);
+	return (1);
+}
+
 static void	philos_cycle(t_philo *philo)
 {
 	if (philo->info->must_eat == 0)
@@ -76,25 +102,10 @@ static void	philos_cycle(t_philo *philo)
 		ft_usleep(philo, timer(philo, 0), 2);
 	while (1)
 	{
-		pthread_mutex_lock(philo->info->end_flag_mutex);
-		if (philo->info->end_flag == 1)
-		{
-			pthread_mutex_unlock(philo->info->end_flag_mutex);
+		if (!check_mutex_end_flag(philo) || !eating(philo))
 			break ;
-		}
-		pthread_mutex_unlock(philo->info->end_flag_mutex);
-		if (!eating(philo))
+		if (!check_mutex_eat_cnt(philo))
 			break ;
-		pthread_mutex_lock(philo->info->eat_cnt_mutex);
-		if (philo->eat_cnt == philo->info->must_eat || philo->info->end_flag == 0)
-		{
-			pthread_mutex_unlock(philo->info->eat_cnt_mutex);
-			pthread_mutex_lock(philo->info->end_flag_mutex);
-			philo->info->end_flag = 1;
-			pthread_mutex_unlock(philo->info->end_flag_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(philo->info->eat_cnt_mutex);
 		print_mutex("is sleeping\n", timer(philo, 0), philo);
 		if (!ft_usleep(philo, timer(philo, 0), philo->info->time_to_sleep))
 			break ;
