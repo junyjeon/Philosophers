@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 21:03:03 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:56:21 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ static int	ft_usleep(t_philo *philo, int now, int time)
 	while (now < target)
 	{
 		if (philo->info->time_to_die <= now - philo->eat_time)
+		{
+			pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
+			pthread_mutex_unlock(&philo->info->fork[(philo->num) % \
+			philo->info->number_of_philosophers]);
 			return (0);
-		usleep(100);
+		}
+		usleep(1000);
 		now = timer(philo, 0);
 	}
 	return (1);
@@ -44,11 +49,13 @@ static int	eating(t_philo *philo)
 	pthread_mutex_lock(&philo->info->fork[philo->num - 1]);
 	if (!print_mutex("has taken a fork\n", timer(philo, 0), philo))
 		return (0);
+	if (philo->info->number_of_philosophers == 1)
+		ft_usleep(philo, timer(philo, 0), philo->info->time_to_die);
 	pthread_mutex_lock(&philo->info->fork[(philo->num) % \
 	philo->info->number_of_philosophers]);
 	if (!print_mutex("has taken a fork\n", timer(philo, 0), philo))
 		return (0);
-
+	
 	now = timer(philo, 0);
 	philo->eat_time = now;
 	philo->eat_cnt++;
@@ -57,11 +64,10 @@ static int	eating(t_philo *philo)
 		return (0);
 	if (!ft_usleep(philo, now, philo->info->time_to_eat))
 		return (0);
-
 	pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
 	pthread_mutex_unlock(&philo->info->fork[(philo->num) % \
 	philo->info->number_of_philosophers]);
-
+	
 	check_eat_cnt(philo);
 	return (1);
 }
@@ -72,6 +78,7 @@ static void	philos_cycle(t_philo *philo)
 		return ;
 	if (philo->num % 2 == 1)
 		ft_usleep(philo, timer(philo, 0), 3);
+		
 	while (1)
 	{
 		if (!eating(philo))

@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:13:53 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 16:11:38 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:40:48 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ int	init_info(t_info *info, int ac, char **ar)
 	if (info->time_to_sleep <= 0)
 		return (ft_perror("Error: time_to_sleep"));
 	if (ac == 6)
+	{
 		info->must_eat = ft_atoi(ar[5]);
+		if (info->must_eat <= 0)
+			return (ft_perror("Error: must_eat"));
+	}
 	else
 		info->must_eat = -1;
 	info->end_flag = -1;
