@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/08 20:52:38 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:34:51 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_info
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*end_flag_mutex;
 	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*eat_cnt_mutex;
 	long long		start_time;
 }		t_info;
 
