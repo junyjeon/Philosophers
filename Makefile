@@ -2,30 +2,24 @@ NAME		=	philosophers
 
 CC			=	cc -g3
 CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		+=	-fsanitize=thread
+#CFLAGS		+=	-fsanitize=thread,undefined
 
 INC_DIR		=	./inc
 
-LIBFT_DIR	=	./lib/libft
-LIBFT_AC	=	$(LIBFT_DIR)/libft.a
-
-CPPFLAGS	=	-I$(INC_DIR) -I$(LIBFT_DIR)
-LDFLAGS		=	-L$(LIBFT_DIR) -lft -lpthread
+CPPFLAGS	=	-I$(INC_DIR)
+LDFLAGS		=	-lpthread
 
 SRC_DIR		=	src
 BUILD_DIR	=	bulid
 
-SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c monitoring.c philos_cycle.c util.c)
+SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c philos_cycle.c util_01.c util_02.c)
 OBJ		=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
 	@echo "$(GREEN)SUCCESS!$(END)"
-
-$(LIBFT):
-	@make -C $(LIBFT_DIR) bonus
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | mkdir
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
@@ -38,7 +32,7 @@ clean:
 	@echo "${YELLOW}> All objects files of the philosophers have been deleted.❌${END}"
 
 fclean: clean
-	@$(RM) -r $(NAME) $(LIBFT)
+	@$(RM) -r $(NAME)
 	@echo "${YELLOW}> Cleaning of the philosophers has been done.❌${END}"
 
 re: fclean

@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:13:53 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 14:31:00 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 16:11:38 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	init_mutex(t_info *info)
 	info->print_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(info->print_mutex, NULL) == -1)
 		return (ft_perror("Error: EINVAL_03"));
-	info->eat_cnt_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(info->eat_cnt_mutex, NULL) == -1)
+	info->full_cnt_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(info->full_cnt_mutex, NULL) == -1)
 		return (ft_perror("Error: EINVAL_03"));
 	return (1);
 }
@@ -55,6 +55,7 @@ int	init_info(t_info *info, int ac, char **ar)
 	else
 		info->must_eat = -1;
 	info->end_flag = -1;
+	info->full_cnt = 0;
 	init_mutex(info);
 	return (1);
 }
