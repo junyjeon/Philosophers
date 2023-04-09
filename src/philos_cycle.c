@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 18:20:14 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:03:03 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,21 @@ static int	ft_usleep(t_philo *philo, int now, int time)
 	while (now < target)
 	{
 		if (philo->info->time_to_die <= now - philo->eat_time)
-		{
-			pthread_mutex_lock(philo->info->end_flag_mutex);
-			pthread_mutex_lock(philo->info->print_mutex);
-			philo->info->end_flag = 1;
-			printf("%lld %d is died\n", timer(philo, 0), philo->num);
-			pthread_mutex_unlock(philo->info->print_mutex);
-			pthread_mutex_unlock(philo->info->end_flag_mutex);
 			return (0);
-		}
 		usleep(100);
 		now = timer(philo, 0);
 	}
 	return (1);
 }
 
-static int	check_eat_cnt(t_philo *philo)
+static void	check_eat_cnt(t_philo *philo)
 {
-	pthread_mutex_lock(philo->info->end_flag_mutex);
-	if (philo->eat_cnt == philo->info->must_eat && philo->info->end_flag == -1)
+	if (philo->eat_cnt == philo->info->must_eat)
 	{
-		pthread_mutex_unlock(philo->info->end_flag_mutex);
 		pthread_mutex_lock(philo->info->full_cnt_mutex);
 		philo->info->full_cnt++;
 		pthread_mutex_unlock(philo->info->full_cnt_mutex);
-		return (0);
 	}
-	pthread_mutex_unlock(philo->info->end_flag_mutex);
-	return (1);
 }
 
 static int	eating(t_philo *philo)
@@ -61,18 +48,21 @@ static int	eating(t_philo *philo)
 	philo->info->number_of_philosophers]);
 	if (!print_mutex("has taken a fork\n", timer(philo, 0), philo))
 		return (0);
+
 	now = timer(philo, 0);
 	philo->eat_time = now;
 	philo->eat_cnt++;
+
 	if (!print_mutex("is eating\n", now, philo))
 		return (0);
 	if (!ft_usleep(philo, now, philo->info->time_to_eat))
 		return (0);
+
 	pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
 	pthread_mutex_unlock(&philo->info->fork[(philo->num) % \
 	philo->info->number_of_philosophers]);
-	if (!check_eat_cnt(philo))
-		return (0);
+
+	check_eat_cnt(philo);
 	return (1);
 }
 
@@ -84,8 +74,7 @@ static void	philos_cycle(t_philo *philo)
 		ft_usleep(philo, timer(philo, 0), 3);
 	while (1)
 	{
-		printf("end_flag %d\n", philo->info->end_flag);
-		if (!check_mutex_end_flag(philo->info) || !eating(philo))
+		if (!eating(philo))
 			break ;
 		if (!print_mutex("is sleeping\n", timer(philo, 0), philo))
 			break ;

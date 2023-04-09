@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 15:22:20 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 18:19:03 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:02:09 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ long long	timer(t_philo *philo, int flag)
 
 int	print_mutex(char *str, int now, t_philo *philo)
 {
-	if (!check_mutex_end_flag(philo->info))
+	if (!check_finish(philo->info))
 		return (0);
 	pthread_mutex_lock(philo->info->print_mutex);
 	printf("%d %d %s", now, philo->num, str);
 	pthread_mutex_unlock(philo->info->print_mutex);
-	usleep(3);
+	if (!check_finish(philo->info))
+		return (0);
 	return (1);
 }
 
@@ -51,7 +52,7 @@ void	free_all(t_philo *philo)
 	pthread_mutex_destroy(philo->info->print_mutex);
 }
 
-int	check_mutex_end_flag(t_info *info)
+int	check_finish(t_info *info)
 {
 	pthread_mutex_lock(info->end_flag_mutex);
 	if (info->end_flag == 1)
@@ -63,26 +64,37 @@ int	check_mutex_end_flag(t_info *info)
 	return (1);
 }
 
-void	monitoring(t_info *info)
+void	monitoring(t_info *info, t_philo *philo)
 {
+	int	i;
+	int	now;
+
 	while (1)
 	{
-		pthread_mutex_lock(info->end_flag_mutex);
-		if (info->end_flag == 1)
+		now = timer(philo, 0);
+		i = -1;
+		while (++i < info->number_of_philosophers)
 		{
-			pthread_mutex_unlock(info->end_flag_mutex);
-			break ;
+			if (info->time_to_die <= now - philo[i].eat_time)
+			{
+				pthread_mutex_lock(info->end_flag_mutex);
+				pthread_mutex_lock(philo->info->print_mutex);
+				info->end_flag = 1;
+				printf("%d %d died\n", now, philo->num);
+				pthread_mutex_unlock(philo->info->print_mutex);
+				pthread_mutex_unlock(info->end_flag_mutex);
+				return ;
+			}
 		}
-		pthread_mutex_unlock(info->end_flag_mutex);
-		pthread_mutex_lock(info->full_cnt_mutex);
+		pthread_mutex_lock(philo->info->full_cnt_mutex);
 		if (info->full_cnt == info->number_of_philosophers)
 		{
-			pthread_mutex_unlock(info->full_cnt_mutex);
+			pthread_mutex_unlock(philo->info->full_cnt_mutex);
 			pthread_mutex_lock(info->end_flag_mutex);
 			info->end_flag = 1;
 			pthread_mutex_unlock(info->end_flag_mutex);
-			break ;
+			return ;
 		}
-		pthread_mutex_unlock(info->full_cnt_mutex);
+		pthread_mutex_unlock(philo->info->full_cnt_mutex);
 	}
 }

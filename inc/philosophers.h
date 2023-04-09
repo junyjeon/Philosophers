@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 16:37:45 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 18:47:42 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_philo		*init_philo(t_info *info);
 
 /* born */
 int			philos_born(t_philo *philo);
-void		monitoring(t_info *info);
-int			check_mutex_end_flag(t_info *info);
+void		monitoring(t_info *info, t_philo *philo);
+int			check_finish(t_info *info);
 
 /* util */
 int			print_mutex(char *str, int now, t_philo *philo);
