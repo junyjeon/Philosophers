@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/10 11:18:54 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:19:13 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void a(void) {
 
 int	main(int ac, char **ar)
 {
-	//atexit(a);
+	atexit(a);
 	if (ac != 5 && ac != 6)
 		return (ft_perror("Error: argv"));
 	philosophers(ac, ar);
