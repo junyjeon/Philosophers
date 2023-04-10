@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 21:58:22 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/10 03:27:02 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:05:22 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	free_all(t_philo *philo)
 	i = -1;
 	while (++i < philo->info->number_of_philosophers)
 		pthread_mutex_destroy(philo->info->fork);
+	free(philo->info->fork);
+	free(philo->info->end_flag_mutex);
+	free(philo->info->print_mutex);
+	free(philo->info->full_cnt_mutex);
+	free(philo);
 	pthread_mutex_destroy(philo->info->end_flag_mutex);
 	pthread_mutex_destroy(philo->info->print_mutex);
 }

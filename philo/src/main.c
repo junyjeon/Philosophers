@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:23 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 21:21:54 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:06:11 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ int	philosophers(int ac, char **ar)
 	return (1);
 }
 
+void a(void) {
+	system("leaks philosophers");
+}
+
 int	main(int ac, char **ar)
 {
+	//atexit(a);
 	if (ac != 5 && ac != 6)
 		return (ft_perror("Error: argv"));
 	philosophers(ac, ar);
