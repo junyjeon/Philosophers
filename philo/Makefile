@@ -2,7 +2,7 @@ NAME		=	philosophers
 
 CC			=	cc -g3
 CFLAGS		=	-Wall -Wextra -Werror
-#CFLAGS		+=	-fsanitize=thread,undefined
+CFLAGS		+=	-fsanitize=thread
 
 INC_DIR		=	./inc
 
@@ -12,7 +12,7 @@ LDFLAGS		=	-lpthread
 SRC_DIR		=	src
 BUILD_DIR	=	bulid
 
-SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c philos_cycle.c util_01.c util_02.c)
+SRC		=	$(addprefix $(SRC_DIR)/, main.c init.c philos_cycle.c monitor.c util_01.c util_02.c)
 OBJ		=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)

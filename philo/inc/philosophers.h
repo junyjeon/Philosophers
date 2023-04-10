@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:51 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 18:47:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/09 22:03:36 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			check_finish(t_info *info);
 
 /* util */
 int			print_mutex(char *str, int now, t_philo *philo);
+int			ft_usleep(t_philo *philo, int now, int time);
 long long	timer(t_philo *philo, int flag);
 void		free_all(t_philo *philo);
 int			ft_atoi(const char *str);

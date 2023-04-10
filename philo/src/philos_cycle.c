@@ -6,40 +6,22 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:18:38 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/09 21:56:21 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/10 09:48:01 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	ft_usleep(t_philo *philo, int now, int time)
-{
-	int	target;
-
-	target = now + time;
-	while (now < target)
-	{
-		if (philo->info->time_to_die <= now - philo->eat_time)
-		{
-			pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
-			pthread_mutex_unlock(&philo->info->fork[(philo->num) % \
-			philo->info->number_of_philosophers]);
-			return (0);
-		}
-		usleep(1000);
-		now = timer(philo, 0);
-	}
-	return (1);
-}
-
-static void	check_eat_cnt(t_philo *philo)
+static int	check_eat_cnt(t_philo *philo)
 {
 	if (philo->eat_cnt == philo->info->must_eat)
 	{
 		pthread_mutex_lock(philo->info->full_cnt_mutex);
 		philo->info->full_cnt++;
 		pthread_mutex_unlock(philo->info->full_cnt_mutex);
+		return (0);
 	}
+	return (1);
 }
 
 static int	eating(t_philo *philo)
@@ -55,11 +37,11 @@ static int	eating(t_philo *philo)
 	philo->info->number_of_philosophers]);
 	if (!print_mutex("has taken a fork\n", timer(philo, 0), philo))
 		return (0);
-	
 	now = timer(philo, 0);
+	pthread_mutex_lock(philo->info->full_cnt_mutex);
 	philo->eat_time = now;
+	pthread_mutex_unlock(philo->info->full_cnt_mutex);
 	philo->eat_cnt++;
-
 	if (!print_mutex("is eating\n", now, philo))
 		return (0);
 	if (!ft_usleep(philo, now, philo->info->time_to_eat))
@@ -67,8 +49,8 @@ static int	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->fork[philo->num - 1]);
 	pthread_mutex_unlock(&philo->info->fork[(philo->num) % \
 	philo->info->number_of_philosophers]);
-	
-	check_eat_cnt(philo);
+	if (!check_eat_cnt(philo))
+		return (0);
 	return (1);
 }
 
@@ -78,7 +60,6 @@ static void	philos_cycle(t_philo *philo)
 		return ;
 	if (philo->num % 2 == 1)
 		ft_usleep(philo, timer(philo, 0), 3);
-		
 	while (1)
 	{
 		if (!eating(philo))
