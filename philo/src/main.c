@@ -36,7 +36,11 @@ int	main(int ac, char **ar)
 {
 	atexit(a);
 	if (ac != 5 && ac != 6)
-		return (ft_perror("Error: argv"));
-	philosophers(ac, ar);
+	{
+		ft_perror("Error: argv");
+		return (-1);
+	}
+	if (!philosophers(ac, ar))
+		return (-1);
 	return (0);
 }
