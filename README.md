@@ -247,17 +247,17 @@ void log_fork_status(t_philo *philo)
 
 ### 4. 철학자 테이블 배치도
 ```
-        🍽️ Fork
-            ↑
-    Phil1 ←🪑→ Phil2
-  ↗                ↘
-🍽️                  🍽️
- ↑                   ↓
-Phil5             Phil3
-    ↖           ↙
-         Phil4
-           ↓
-          🍽️
+       🍽️ Fork
+           ↑
+   Phil1 ←🪑→ Phil2
+  ↗               ↘
+🍽️                 🍽️
+ ↑                  ↓
+Phil5            Phil3
+    ↖          ↙
+        Phil4
+          ↓
+         🍽️
 ```
 
 ## 🔄 동기화 처리
