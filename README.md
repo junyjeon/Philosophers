@@ -2,7 +2,7 @@
   <h1>🍝 Philosophers</h1>
   <p>42Seoul의 멀티스레딩 프로젝트: 식사하는 철학자들의 문제</p>
 
-  <img src="assets/philosophers_review.jpg" alt="philosophers code review" width="800">
+  <img src="assets/08_philosophers_review.jpg" alt="philosophers code review" width="800">
 
   [![42 Score](https://img.shields.io/badge/Score-125%2F100-success?style=for-the-badge&logo=42)](https://github.com/your-username/philosophers)
   [![Norminette](https://img.shields.io/badge/Norminette-passing-brightgreen?style=for-the-badge)](https://github.com/42School/norminette)
@@ -195,6 +195,69 @@ void *monitor(void *arg)
     }
     return (NULL);
 }
+```
+
+## 🌟 보너스 파트
+
+### 1. 세마포어 버전
+```c
+// 세마포어 초기화
+sem_t *forks;
+forks = sem_open("/forks", O_CREAT, 0644, num_philos);
+
+// 포크 획득
+void take_forks_sem(t_philo *philo)
+{
+    sem_wait(philo->data->forks);
+    print_state(philo, "has taken a fork");
+    sem_wait(philo->data->forks);
+    print_state(philo, "has taken a fork");
+}
+
+// 포크 반환
+void release_forks_sem(t_philo *philo)
+{
+    sem_post(philo->data->forks);
+    sem_post(philo->data->forks);
+}
+```
+
+## 🔧 디버깅 가이드
+
+### 1. 데드락 디버깅
+```c
+// 데드락 감지를 위한 로깅
+void log_fork_status(t_philo *philo)
+{
+    printf("Philo %d trying to take forks at %llu ms\n", 
+           philo->id, get_time() - philo->data->start_time);
+}
+```
+
+### 2. 시각화 도구
+```bash
+# 실행 상태 시각화 (별도 스크립트 필요)
+./visualizer.py ./philo 5 800 200 200
+```
+
+### 3. 일반적인 디버깅 팁
+- gdb 사용하여 스레드 추적
+- valgrind로 메모리 누수 확인
+- helgrind로 데이터 레이스 확인
+
+### 4. 철학자 테이블 배치도
+```
+         🍽️ Fork
+           ↑
+    Phil1 ←🪑→ Phil2
+    ↗           ↘
+🍽️             🍽️
+↑               ↓
+Phil5           Phil3
+    ↖         ↙
+      Phil4
+        ↓
+       🍽️
 ```
 
 ## 🔄 동기화 처리
