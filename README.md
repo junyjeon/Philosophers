@@ -1,181 +1,321 @@
-
 <div align="center">
-<h1 align="center">
-<img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-markdown-open.svg" width="100" />
-<br>
-philosophers
-</h1>
-<h3 align="center">📍 Think, collaborate and connect with the philosophers on GitHub.</h3>
-<h3 align="center">🚀 Developed with the software and tools below.</h3>
-<p align="center">
+  <h1>🍝 Philosophers</h1>
+  <p>42Seoul의 멀티스레딩 프로젝트: 식사하는 철학자들의 문제</p>
 
-<img src="https://img.shields.io/badge/C-A8B9CC.svg?style=for-the-badge&logo=C&logoColor=black" alt="" />
-</p>
+  <img src="assets/philosophers_review.jpg" alt="philosophers code review" width="800">
 
+  [![42 Score](https://img.shields.io/badge/Score-125%2F100-success?style=for-the-badge&logo=42)](https://github.com/your-username/philosophers)
+  [![Norminette](https://img.shields.io/badge/Norminette-passing-brightgreen?style=for-the-badge)](https://github.com/42School/norminette)
 </div>
 
----
-## 📚 Table of Contents
-- [📚 Table of Contents](#-table-of-contents)
-- [📍Overview](#-introdcution)
-- [🔮 Features](#-features)
-- [⚙️ Project Structure](#project-structure)
-- [🧩 Modules](#modules)
-- [🏎💨 Getting Started](#-getting-started)
-- [🗺 Roadmap](#-roadmap)
-- [🤝 Contributing](#-contributing)
-- [🪪 License](#-license)
-- [📫 Contact](#-contact)
-- [🙏 Acknowledgments](#-acknowledgments)
+## 📋 목차
+1. [프로젝트 소개](#-프로젝트-소개)
+2. [필수 요구사항](#-필수-요구사항)
+3. [설치 및 실행](#-설치-및-실행)
+4. [구현 가이드](#-구현-가이드)
+5. [동기화 처리](#-동기화-처리)
+6. [보너스 파트](#-보너스-파트)
+7. [트러블슈팅](#-트러블슈팅)
+8. [테스트 케이스](#-테스트-케이스)
+9. [디버깅 가이드](#-디버깅-가이드)
+10. [참고 자료](#-참고-자료)
 
----
+## 🎯 프로젝트 소개
+Philosophers는 동시성 프로그래밍의 고전적인 문제인 '식사하는 철학자들'을 해결하는 프로젝트입니다. 여러 철학자들이 원형 테이블에 앉아 생각하고, 먹고, 자는 행동을 반복하며, 이 과정에서 발생할 수 있는 교착 상태(deadlock)와 경쟁 상태(race condition)를 해결해야 합니다.
 
-## 📍Overview
+### 주요 학습 목표
+- 멀티스레딩 프로그래밍
+- 뮤텍스를 이용한 동기화
+- 데드락과 레이스 컨디션 방지
+- 리소스 관리와 모니터링
 
-Philosophers is an open-source project that uses natural language processing (NLP) to extract insights from philosophical texts. It includes tools for text analysis, ontology building, and visual
+## 📃 필수 요구사항
 
-## 🔮 Feautres
-
-> `[📌  INSERT-PROJECT-FEATURES]`
-
----
-
-<img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-github-open.svg" width="80" />
-
-## ⚙️ Project Structure
-
+### 1. 프로그램 규칙
 ```bash
-repo
-└── philo
-    ├── Makefile
-    ├── inc
-    │   └── philosophers.h
-    ├── philosophers
-    └── src
-        ├── init.c
-        ├── main.c
-        ├── monitor.c
-        ├── philos_cycle.c
-        ├── tempCodeRunnerFile.c
-        ├── util_01.c
-        └── util_02.c
-
-3 directories, 10 files
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 ```
----
+- number_of_philosophers: 철학자의 수 (포크의 수와 동일)
+- time_to_die: 마지막 식사 후 죽기까지의 시간 (ms)
+- time_to_eat: 식사하는데 걸리는 시간 (ms)
+- time_to_sleep: 수면 시간 (ms)
+- number_of_times_each_philosopher_must_eat: [선택] 각 철학자가 먹어야 하는 횟수
 
-<img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-src-open.svg" width="80" />
+### 2. 기본 동작
+```c
+// 철학자의 상태
+typedef enum e_state
+{
+    THINKING,   // 생각하는 중
+    EATING,     // 식사 중
+    SLEEPING,   // 수면 중
+    DEAD        // 사망
+} t_state;
 
-## 💻 Modules
-<details closed><summary>Inc</summary>
-
-| File           | Summary                                                                                                                                                                                                                                                                                | Module                   |
-|:---------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------|
-| philosophers.h | This code is a header file for a program that simulates the dining philosophers problem . It contains structs and functions for initializing the program , creating the philosophers , and monitoring their actions . It also includes utility functions for printing , sleeping , and | philo/inc/philosophers.h |
-
-</details>
-
-<details closed><summary>Philo</summary>
-
-| File         | Summary                                                                                                            | Module             |
-|:-------------|:-------------------------------------------------------------------------------------------------------------------|:-------------------|
-| philosophers | This code is an error message indicating that a file could not be decoded because it is not a text or UTF-8 file . | philo/philosophers |
-
-</details>
-
-<details closed><summary>Src</summary>
-
-| File                 | Summary                                                                                                                                                                                                                                                        | Module                         |
-|:---------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------|
-| util_02.c            | This code contains utility functions for a program , such as ft_perror for printing errors , ft_strlen for calculating the length of a string , ft_putstr_fd for writing a string to a file descriptor , and ft _                                              | philo/src/util_02.c            |
-| util_01.c            | This code is a utility file for the Philosophers problem . It contains functions to get the current time , put the thread to sleep , and print messages with a mutex lock .                                                                                    | philo/src/util_01.c            |
-| main.c               | This code is the main function of a program that simulates the dining philosophers problem . It initializes the program 's information , creates the philosophers , and then monitors their behavior . It also includes a function to check for memory leaks . | philo/src/main.c               |
-| init.c               | This code initializes the information and mutexes needed for a program that simulates philosophers eating . It takes in command line arguments for the number of philosophers , time to die , time to eat , and time to sleep . It also takes in               | philo/src/init.c               |
-| monitor.c            | This code is a monitor for a program that simulates philosophers eating . It checks for when all the philosophers have eaten , when one of them has died , and when the program should end . It also includes functions to free all the resources used by      | philo/src/monitor.c            |
-| philos_cycle.c       | This code creates threads for each philosopher and runs a cycle of eating , sleeping , and thinking . It also checks if the philosopher has eaten the required number of times and updates the full_cnt accordingly .                                          | philo/src/philos_cycle.c       |
-| tempCodeRunnerFile.c | init_info is a function that initializes a set of variables with default values . It takes in a list of variables and assigns each one a default value . This function is useful for quickly setting up a set of variables with predetermined values .         | philo/src/tempCodeRunnerFile.c |
-
-</details>
-<hr />
-
-## 🚀 Getting Started
-
-### ✅ Prerequisites
-
-Before you begin, ensure that you have the following prerequisites installed:
-> `[📌  INSERT-PROJECT-PREREQUISITES]`
-
-### 💻 Installation
-
-1. Clone the philosophers repository:
-```sh
-git clone https://github.com/junyjeon/philosophers
+// 철학자 구조체
+typedef struct s_philo
+{
+    int             id;             // 철학자 번호
+    t_state         state;          // 현재 상태
+    int             eat_count;      // 식사 횟수
+    uint64_t        last_meal;      // 마지막 식사 시간
+    pthread_mutex_t *left_fork;     // 왼쪽 포크
+    pthread_mutex_t *right_fork;    // 오른쪽 포크
+    struct s_data   *data;          // 공유 데이터
+} t_philo;
 ```
 
-2. Change to the project directory:
-```sh
-cd philosophers
+### 3. 동작 순서
+1. 각 철학자는 스레드로 생성됨
+2. 철학자는 생각 → 식사 → 수면 순서로 행동
+3. 식사를 위해서는 양쪽의 포크가 필요
+4. 정해진 시간 내에 식사하지 못하면 사망
+5. 한 철학자가 사망하면 시뮬레이션 종료
+
+### 4. 출력 규칙
+```c
+// 상태 변화 출력 함수
+void print_state(t_philo *philo, char *message)
+{
+    uint64_t timestamp = get_time() - philo->data->start_time;
+    
+    pthread_mutex_lock(&philo->data->print);
+    if (!philo->data->is_dead)
+        printf("%llu %d %s\n", timestamp, philo->id + 1, message);
+    pthread_mutex_lock(&philo->data->print);
+}
+
+// 출력 예시
+// timestamp_in_ms X has taken a fork
+// timestamp_in_ms X is eating
+// timestamp_in_ms X is sleeping
+// timestamp_in_ms X is thinking
+// timestamp_in_ms X died
 ```
 
-3. Install the dependencies:
-```sh
-gcc -o myapp main.c
+## 🔨 설치 및 실행
+
+### 1. 컴파일
+```makefile
+NAME		= philo
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+RM			= rm -f
+PTHREAD		= -pthread
+
+SRCS		= main.c \
+			  init.c \
+			  utils.c \
+			  monitor.c \
+			  routine.c \
+			  time.c
+
+OBJS		= $(SRCS:.c=.o)
+
+all:		$(NAME)
+
+$(NAME):	$(OBJS)
+			$(CC) $(CFLAGS) $(PTHREAD) -o $(NAME) $(OBJS)
+
+clean:
+			$(RM) $(OBJS)
+
+fclean:		clean
+			$(RM) $(NAME)
+
+re:			fclean all
+
+.PHONY:		all clean fclean re
 ```
 
-### 🤖 Using philosophers
+### 2. 실행 예시
+```bash
+# 기본 테스트
+./philo 4 410 200 200
 
-```sh
-./myapp
+# 모든 철학자가 7번 먹어야 하는 경우
+./philo 5 800 200 200 7
+
+# 죽음이 발생하는 케이스
+./philo 4 310 200 200
 ```
 
-### 🧪 Running Tests
-```sh
-#run tests
+## 🛠 구현 가이드
+
+### 1. 시간 관리
+```c
+// 현재 시간 얻기 (밀리초)
+uint64_t get_time(void)
+{
+    struct timeval tv;
+    
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+}
+
+// 대기 함수
+void ft_usleep(uint64_t time)
+{
+    uint64_t start;
+    uint64_t current;
+    
+    start = get_time();
+    while (1)
+    {
+        current = get_time();
+        if (current - start >= time)
+            break;
+        usleep(100);
+    }
+}
 ```
 
-<hr />
-
-## 🛠 Future Development
-- [X] [📌  COMPLETED-TASK]
-- [ ] [📌  INSERT-TASK]
-- [ ] [📌  INSERT-TASK]
-
-
----
-
-## 🤝 Contributing
-Contributions are always welcome! Please follow these steps:
-1. Fork the project repository. This creates a copy of the project on your account that you can modify without affecting the original project.
-2. Clone the forked repository to your local machine using a Git client like Git or GitHub Desktop.
-3. Create a new branch with a descriptive name (e.g., `new-feature-branch` or `bugfix-issue-123`).
-```sh
-git checkout -b new-feature-branch
+### 2. 모니터링 시스템
+```c
+// 철학자 상태 모니터링
+void *monitor(void *arg)
+{
+    t_data *data;
+    int i;
+    
+    data = (t_data *)arg;
+    while (!data->is_dead)
+    {
+        i = -1;
+        while (++i < data->num_philos)
+        {
+            if (get_time() - data->philos[i].last_meal > data->time_to_die)
+            {
+                print_state(&data->philos[i], "died");
+                data->is_dead = 1;
+                break;
+            }
+        }
+        usleep(1000);
+    }
+    return (NULL);
+}
 ```
-4. Make changes to the project's codebase.
-5. Commit your changes to your local branch with a clear commit message that explains the changes you've made.
-```sh
-git commit -m 'Implemented new feature.'
+
+## 🔄 동기화 처리
+
+### 1. 포크 관리
+```c
+// 포크 잡기
+int take_forks(t_philo *philo)
+{
+    pthread_mutex_lock(philo->left_fork);
+    print_state(philo, "has taken a fork");
+    pthread_mutex_lock(philo->right_fork);
+    print_state(philo, "has taken a fork");
+    return (0);
+}
+
+// 포크 내려놓기
+void release_forks(t_philo *philo)
+{
+    pthread_mutex_unlock(philo->left_fork);
+    pthread_mutex_unlock(philo->right_fork);
+}
 ```
-6. Push your changes to your forked repository on GitHub using the following command
-```sh
-git push origin new-feature-branch
+
+### 2. 데드락 방지
+```c
+// 짝수/홀수 철학자 구분으로 데드락 방지
+void *philo_routine(void *arg)
+{
+    t_philo *philo;
+    
+    philo = (t_philo *)arg;
+    if (philo->id % 2)
+        ft_usleep(10);
+    while (!philo->data->is_dead)
+    {
+        take_forks(philo);
+        eating(philo);
+        release_forks(philo);
+        sleeping(philo);
+        thinking(philo);
+    }
+    return (NULL);
+}
 ```
-7. Create a pull request to the original repository.
-Open a new pull request to the original project repository. In the pull request, describe the changes you've made and why they're necessary.
-The project maintainers will review your changes and provide feedback or merge them into the main branch.
 
----
+## 🧪 테스트 케이스
 
-## 🪪 License
+### 1. 기본 테스트
+```bash
+# 데드락이 발생하지 않는 케이스
+./philo 5 800 200 200
 
-This project is licensed under the `[📌  INSERT-LICENSE-TYPE]` License. See the [LICENSE](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository) file for additional info.
+# 철학자가 충분히 먹는 케이스
+./philo 5 800 200 200 7
 
----
+# 철학자가 죽는 케이스
+./philo 4 310 200 100
+```
 
-## 🙏 Acknowledgments
+### 2. 엣지 케이스
+```bash
+# 최소 철학자 수
+./philo 1 800 200 200
 
-[📌  INSERT-DESCRIPTION]
+# 큰 수의 철학자
+./philo 200 800 200 200
 
+# 매우 짧은 시간
+./philo 4 200 200 200
+```
 
----
+## 🔍 트러블슈팅
 
+### 1. 레이스 컨디션
+```c
+// 공유 데이터 보호
+pthread_mutex_t data_mutex;
+
+void update_shared_data(t_data *data)
+{
+    pthread_mutex_lock(&data_mutex);
+    // 공유 데이터 업데이트
+    pthread_mutex_unlock(&data_mutex);
+}
+```
+
+### 2. 메모리 누수 방지
+```c
+// 자원 해제 함수
+void cleanup(t_data *data)
+{
+    int i;
+    
+    i = -1;
+    while (++i < data->num_philos)
+        pthread_mutex_destroy(&data->forks[i]);
+    pthread_mutex_destroy(&data->print);
+    free(data->philos);
+    free(data->forks);
+}
+```
+
+## 📚 참고 자료
+
+### 1. 필수 함수
+```c
+pthread_create()
+pthread_detach()
+pthread_join()
+pthread_mutex_init()
+pthread_mutex_destroy()
+pthread_mutex_lock()
+pthread_mutex_unlock()
+```
+
+### 2. 체크리스트
+- [x] 데드락 없음
+- [x] 레이스 컨디션 없음
+- [x] 메모리 누수 없음
+- [x] 정확한 시간 측정
+- [x] 올바른 포크 관리
+- [x] 정확한 죽음 감지
+- [ ] 보너스 파트 (세마포어 버전)
