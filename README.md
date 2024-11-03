@@ -4,8 +4,9 @@
 
   <img src="assets/08_philosophers_review.jpg" alt="philosophers code review" width="800">
 
-  [![42 Score](https://img.shields.io/badge/Score-100%2F100-success?style=for-the-badge&logo=42)](https://github.com/your-username/philosophers)
+  [![42 Score](https://img.shields.io/badge/Score-100%2F100-success?style=for-the-badge&logo=42)](https://github.com/junyjeon/philosophers)
   [![Norminette](https://img.shields.io/badge/Norminette-passing-brightgreen?style=for-the-badge)](https://github.com/42School/norminette)
+  [![C](https://img.shields.io/badge/C-99-blue.svg?style=for-the-badge&logo=c)](https://github.com/junyjeon/philosophers)
 </div>
 
 ## 📋 목차
